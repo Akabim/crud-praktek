@@ -36,11 +36,6 @@
                         <!-- Page title actions -->
                         <div class="col-auto ms-auto d-print-none">
                             <div class="btn-list">
-                                <span class="d-none d-sm-inline">
-                                    <a href="#" class="btn btn-white">
-                                        New view
-                                    </a>
-                                </span>
                                 <a href="{{route('student.create')}}" class="btn btn-primary d-none d-sm-inline-block">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -62,7 +57,18 @@
                 </div>
             </div>
             <div class="page-body">
-                @yield('content')
+                <div class="container-xl">
+                    @if(session('success'))
+                    <div class="alert alert-success">{{session ('success')}}</div>
+                    @endif
+                    @if(session('info'))
+                    <div class="alert alert-info">{{session ('info')}}</div>
+                    @endif
+                    @if(session('danger'))
+                    <div class="alert alert-danger">{{session ('danger')}}</div>
+                    @endif
+                    @yield('content')
+                </div>
             </div>
             @include('templates.partials.footer')
         </div>

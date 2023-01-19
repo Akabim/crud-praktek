@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\StudentClassController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,29 +17,34 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('./auth/login');
 });
 
 Route::get('/user', function () {
     return view('user');
 });
 
-Route::get('student', [StudentController::class, 'index'])->name('student.index');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+});
 
-Route::get('student/create', [StudentController::class, 'create'])->name('student.create');
+// Route::get('student', [StudentController::class, 'index'])->name('student.index');
 
-Route::post('/student',[StudentController::class,'store'])->name('student.store');
+// Route::get('student/create', [StudentController::class, 'create'])->name('student.create');
 
-Route::get('student/{id}/edit', [StudentController::class, 'edit'])->name('student.edit');
+// Route::post('/student',[StudentController::class,'store'])->name('student.store');
 
-Route::put('student/{id}', [StudentController::class, 'update'])->name('student.update');
+// Route::get('student/{id}/edit', [StudentController::class, 'edit'])->name('student.edit');
 
-Route::get('student/delete/{id}', [StudentController::class, 'delete'])->name('student.delete');
+// Route::put('student/{id}', [StudentController::class, 'update'])->name('student.update');
 
-Route::get('/kelas', [ClassController::class, 'index'])->name('kelas.index');
+// Route::get('student/delete/{id}', [StudentController::class, 'delete'])->name('student.delete');
+
+// Route::get('/kelas', [ClassController::class, 'index'])->name('kelas.index');
 
 
-
+Route::resource('student', StudentController::class)->middleware('auth');
+Route::resource('class', StudentClassController::class)->middleware('auth');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

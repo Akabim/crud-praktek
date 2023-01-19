@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\kelas;
-
+use App\Models\StudentClass;
 use Illuminate\Http\Request;
-
-class ClassController extends Controller
+use Illuminate\Support\Str;
+class StudentClassController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,9 @@ class ClassController extends Controller
      */
     public function index()
     {
-        return view ('kelas.index', [
-            'kelass' => Kelas::get(),
+        return view ('studentclass.index', [
+            'student_classes' => StudentClass::get(),
+            'class' => StudentClass::paginate(5),
         ]);
     }
 
@@ -27,7 +27,7 @@ class ClassController extends Controller
      */
     public function create()
     {
-        //
+        return view ('studentclass.create');
     }
 
     /**
@@ -38,7 +38,14 @@ class ClassController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $student_classes = new StudentClass();
+        $student_classes->name = $request->name;
+        $student_classes->slug = Str::slug($request->name);
+
+        $student_classes->save();   
+
+        return redirect()->route('class.index')->withSuccess('Data Berhasil Di Input');
     }
 
     /**
@@ -49,7 +56,9 @@ class ClassController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('studentclass.show', [
+            'student_classes' => StudentClass::find($id)
+        ]);
     }
 
     /**
@@ -59,8 +68,12 @@ class ClassController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
+    {   
+        $student_classes = StudentClass::find($id);
+
+        return view('studentclass.edit', [
+            'student_classes' => $student_classes,
+        ]);
     }
 
     /**
@@ -72,7 +85,16 @@ class ClassController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       
+
+        $students_class = StudentClass::find($id); 
+
+        $students_class->name = $request->name;
+        $students_class->slug = Str::slug($request->name);
+
+        $students_class->save();
+
+        return redirect()->route('class.index')->withInfo('Data Berhasil Di rubah');
     }
 
     /**
@@ -83,6 +105,7 @@ class ClassController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $student_classes = StudentClass::find($id)->delete();
+        return redirect()->route('class.index')->withDanger('Data Berhasil Di Hapus');
     }
 }
